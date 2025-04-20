@@ -7,7 +7,7 @@ warnings.filterwarnings('ignore')
 from crewai import Agent, Task, Crew
 
 import os
-from utils import get_openai_api_key
+from utils import get_openai_api_key, pretty_print_result
 
 openai_api_key = get_openai_api_key()
 os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
@@ -19,7 +19,7 @@ from crewai_tools import SerperDevTool,ScrapeWebsiteTool,WebsiteSearchTool
 # Add tools
 
 docs_scrape_tool = ScrapeWebsiteTool(
-    website_url="https://docs.crewai.com/how-to/Creating-a-Crew-and-kick-it-off/"
+    website_url="https://blymyerengineers.com/project-category/solar/"
 )
 
 # Create agents
@@ -29,7 +29,7 @@ support_agent = Agent(
 	goal="Be the most friendly and helpful "
         "support representative in your team",
 	backstory=(
-		"You work at crewAI (https://crewai.com) and "
+		"You work at Blymyer Engineers Inc. (https://blymyerengineers.com/) and "
         " are now working on providing "
 		"support to {customer}, a super important customer "
         " for your company."
@@ -46,7 +46,7 @@ support_quality_assurance_agent = Agent(
 	goal="Get recognition for providing the "
     "best support quality assurance in your team",
 	backstory=(
-		"You work at crewAI (https://crewai.com) and "
+		"You work at Blymyer Engineers Inc. (https://blymyerengineers.com/) and "
         "are now working with your team "
 		"on a request from {customer} ensuring that "
         "the support representative is "
@@ -122,12 +122,13 @@ crew = Crew(
 # Run crew
 
 inputs = {
-    "customer": "DeepLearningAI",
-    "person": "Andrew Ng",
-    "inquiry": "I need help with setting up a Crew "
-               "and kicking it off, specifically "
-               "how can I add memory to my crew? "
-               "Can you provide guidance?"
+    "customer": "Company X",
+    "person": "Peter",
+    "inquiry": f"""
+    Hi, I am Peter from Company X. 
+    I am interested in selecting engineering company in USA for desrired solar power plant projects.
+    Tell me about your company and portfolio projects that you developed?
+    """
 }
 result = crew.kickoff(inputs=inputs)                     
 
